@@ -81,3 +81,5 @@ Empty
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
+### 문제 풀이
+여기선 큐와 dp를 모두 사용했지만 사실 둘중 한가지만 사용해도 된다 bfs의 원리를 이용하므로 그냥 큐만 pair로 사용하면 문제없음
