@@ -2,10 +2,9 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.Buffer;
 import java.util.StringTokenizer;
 
-public class Main{
+public class Main {
 
     private static int[][] arr;
     private static int n;
@@ -40,6 +39,7 @@ public class Main{
         }
         int ySize=startY+size;
         int xSize=startX+size;
+        int nextSize=size/3;
         boolean flag=false;
 
         for(int i=startY;i<ySize;i++){
@@ -55,19 +55,13 @@ public class Main{
         }
 
         if(flag){
-            divAndCon(startX, startY, size/3);
-            divAndCon(startX+size/3, startY, size/3);
-            divAndCon(startX+size*2/3, startY, size/3);
-            divAndCon(startX, startY+size/3, size/3);
-            divAndCon(startX+size*2/3, startY+size/3, size/3);
-            divAndCon(startX+size/3, startY+size/3, size/3);
-            divAndCon(startX, startY+size*2/3, size/3);
-            divAndCon(startX+size/3, startY+size*2/3, size/3);
-            divAndCon(startX+size*2/3, startY+size*2/3, size/3);
+            for(int i=0;i<3;i++){
+                for(int j=0;j<3;j++){
+                    divAndCon(startX+i*nextSize,startY+j*nextSize,nextSize);
+                }
+            }
         }else{
             paper[cur+1]++;
         }
-
-
     }
 }
