@@ -1,65 +1,47 @@
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.StringTokenizer;
 
 public class Main {
+    static int n, k;
+    static int[] arr;
+    public static void main(String args[]) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-    private static int k;
-    private static int n;
-    private static int[] score;
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st=new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
         k = Integer.parseInt(st.nextToken());
-
-        st=new StringTokenizer(br.readLine());
-        score = new int[n];
-        int right=0;
-        int left=0;
-
-        for(int i=0;i<n;i++) {
-            score[i]=Integer.parseInt(st.nextToken());
-            right+=score[i];
+        arr = new int[n];
+        st = new StringTokenizer(br.readLine());
+        int r=0;
+        for (int i = 0; i < n; i++){
+            arr[i] = Integer.parseInt(st.nextToken());
+            r+=arr[i];
         }
 
-        int mid=0;
-
-        while(left<=right) {
-            mid=(left+right)>>1;
-
-            if(check(mid)) {
-                left=mid+1;
-            }else {
-                right=mid-1;
+        int l = 0;
+        r +=1;
+        while (l + 1 != r) {
+            int m = (l + r) / 2;
+            if (check(m)) {
+                l = m;
+            } else {
+                r = m;
             }
         }
-
-        System.out.println(right);
-
+        System.out.println(l);
     }
-
-    private static boolean check(int mid) {
-        int sum=0;
-        ArrayList<Integer> tmp=new ArrayList<>();
-        for(int i=0;i<n;i++) {
-            sum+=score[i];
-            if(sum>=mid) {
-                tmp.add(sum);
-                sum=0;
+    static boolean check(int val) {
+        int groupCnt = 0;
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum += arr[i];
+            if (sum >= val) {
+                groupCnt++;
+                sum = 0;
             }
         }
-        if(tmp.size()>=k) {//그룹이 많을때 -> 합을 늘려야함
-            return true;
-        }
-
-
-        return false;
+        return groupCnt >= k;
     }
-
 }
