@@ -15,8 +15,10 @@ public class Main {
 	private static char[][] map;
 	static int count = 0;
 	static List<Point> cow = new ArrayList<>();
-	static int[] dx = { 0, 0, 1, -1 };
-	static int[] dy = { 1, -1, 0, 0 };
+	static int[] dx = { 0, 0, 2, -2 };
+	static int[] dy = { 2, -2, 0, 0 };
+	static int[] mdx = { 0, 0, 1, -1 };
+	static int[] mdy = { 1, -1, 0, 0 };
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -36,7 +38,7 @@ public class Main {
 			int y2 = Integer.parseInt(st.nextToken());
 			int x2 = Integer.parseInt(st.nextToken());
 
-			map[(y1 + y2-1)][(x1 + x2-1)] = '*';
+			map[(y1 + y2 - 1)][(x1 + x2 - 1)] = '*';
 
 		} // 길 입력 종료
 
@@ -46,18 +48,18 @@ public class Main {
 			int x = Integer.parseInt(st.nextToken());
 
 			map[2 * y - 1][2 * x - 1] = 'C';
-			cow.add(new Point(2*x-1, 2*y-1));
+			cow.add(new Point(2 * x - 1, 2 * y - 1));
 		}
 		// 소 입력 종료
 
 		int result = 0;
-		for (int i = 0; i < cow.size()-1; i++) {
+		for (int i = 0; i < cow.size() - 1; i++) {
 			count = 0;
-			Point cur=cow.get(i);
+			Point cur = cow.get(i);
 			bfs(cur);
-			map[cur.y][cur.x]=' ';
-			result += cow.size()-i - count - 1;
-			
+			map[cur.y][cur.x] = ' ';
+			result += cow.size() - i - count - 1;
+
 		}
 
 		System.out.println(result);
@@ -68,30 +70,30 @@ public class Main {
 		boolean[][] visited = new boolean[mapSize][mapSize];
 		Queue<Point> q = new ArrayDeque<>();
 		q.add(start);
-		visited[start.y][start.x]=true;
+		visited[start.y][start.x] = true;
 		while (!q.isEmpty()) {
-			Point cur=q.poll();
-			
-			for(int i=0;i<4;i++) {
-				int cmpX=cur.x+dx[i]*2;
-				int cmpY=cur.y+dy[i]*2;
-				
-				if(isRange(cmpX)&&isRange(cmpY)
-						&&!visited[cmpY][cmpX]&&map[cmpY-dy[i]][cmpX-dx[i]]!='*') {
-					if(map[cmpY][cmpX]=='C') {
+			Point cur = q.poll();
+
+			for (int i = 0; i < 4; i++) {
+				int cmpX = cur.x + dx[i];
+				int cmpY = cur.y + dy[i];
+
+				if (isRange(cmpX) && isRange(cmpY) && !visited[cmpY][cmpX]
+						&& map[cmpY - mdy[i]][cmpX - mdx[i]] != '*') {
+					if (map[cmpY][cmpX] == 'C') {
 						count++;
 					}
-					visited[cmpY][cmpX]=true;
-					q.add(new Point(cmpX,cmpY));
+					visited[cmpY][cmpX] = true;
+					q.add(new Point(cmpX, cmpY));
 				}
 			}
-			
+
 		}
 
 	}
 
 	private static boolean isRange(int value) {
-		return (value>0&&value<mapSize);
+		return (value > 0 && value < mapSize);
 	}
 
 }
