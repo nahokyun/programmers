@@ -1,11 +1,9 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -17,7 +15,6 @@ public class Main {
 		int M=Integer.parseInt(st.nextToken());
 
 		int[] nodeCount=new int[N+1];
-		boolean[] nodeVisited=new boolean[N+1];
 		Node[] nodes=new Node[N+1];
 
 		for(int i=1;i<=N;i++){
@@ -38,13 +35,11 @@ public class Main {
 			if(nodeCount[i]==0){
 				q.add(i);
 			}
-		}
+		}//처음으로 넣을 노드 찾아내서 add
 		List<Integer> result=new ArrayList<>();
 
 		while(!q.isEmpty()){
 			int curNode=q.poll();
-
-			nodeVisited[curNode]=true;
 			result.add(curNode);
 
 			for(Node cur=nodes[curNode].next;cur!=null;cur=cur.next){
@@ -53,7 +48,7 @@ public class Main {
 					q.add(cur.num);
 				}
 			}
-		}
+		}//향하는 노드가 0개인것을 다시 넣어줌
 
 		StringBuilder sb=new StringBuilder();
 		for(int i=0;i<N;i++){
@@ -63,18 +58,13 @@ public class Main {
 		System.out.println(sb);
 	}//end of main
 
-	static class Node implements Comparable<Node>{
+	static class Node{
 		int num;
 		Node next;
 
 		public Node(int num, Node next) {
 			this.num = num;
 			this.next = next;
-		}
-
-		@Override
-		public int compareTo(Node o) {
-			return this.num-o.num;
 		}
 	}
 }
