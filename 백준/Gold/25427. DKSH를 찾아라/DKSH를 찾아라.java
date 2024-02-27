@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-	static List<Integer>[] list=new ArrayList[4];
-	static List<Integer>[] sums=new ArrayList[4];
+	static List<Long>[] list=new ArrayList[4];
+	static List<Long>[] sums=new ArrayList[4];
 	static int possibleCount=0;
 	public static void main(String[] args) throws IOException {
 		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
@@ -21,24 +21,24 @@ public class Main {
 		for(int i=0;i<n;i++){
 			switch (s.charAt(i)){
 				case 'D':
-					list[0].add(i);
+					list[0].add((long)i);
 					break;
 				case 'K':
-					list[1].add(i);
-					sums[1].add(0);
+					list[1].add((long)i);
+					sums[1].add(0L);
 					break;
 				case 'S':
-					list[2].add(i);
-					sums[2].add(0);
+					list[2].add((long)i);
+					sums[2].add(0L);
 					break;
 				case 'H':
-					list[3].add(i);
-					sums[3].add(0);
+					list[3].add((long)i);
+					sums[3].add(0L);
 					break;
 			}
 		}
 		for(int i=0;i<list[0].size();i++){
-			sums[0].add(i+1);
+			sums[0].add((long)(i+1));
 		}
 
 		for(int i=1;i<4;i++){// KSH부분
@@ -49,9 +49,9 @@ public class Main {
 						break;
 					}
 				}
-			}
-			for(int j=1;j<list[i].size();j++){
-				sums[i].set(j,sums[i].get(j-1)+sums[i].get(j));
+				if(j>=1) {
+					sums[i].set(j, sums[i].get(j - 1) + sums[i].get(j));
+				}
 			}
 		}
 
