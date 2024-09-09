@@ -1,16 +1,13 @@
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
 
-	private static List<List<Node>> nodes;
+	private static Node[] nodes;
 	private static long[] distance;
 	private static int n;
 	private static int m;
@@ -25,9 +22,9 @@ public class Main {
 		Arrays.fill(distance,Long.MAX_VALUE);
 		distance[1]=0;
 
-		nodes=new ArrayList<>();
-		for(int i=0;i<=n;i++){
-			nodes.add(new ArrayList<>());
+		nodes=new Node[n+1];
+		for(int i=1;i<=n;i++){
+			nodes[i]=new Node(null,0,i);
 		}
 
 		for(int i=0;i<m;i++){
@@ -35,8 +32,8 @@ public class Main {
 			int a=Integer.parseInt(st.nextToken());
 			int b=Integer.parseInt(st.nextToken());
 
-			nodes.get(a).add(new Node(i,b));
-			nodes.get(b).add(new Node(i,a));
+			nodes[a].next=new Node(nodes[a].next,i,b);
+			nodes[b].next=new Node(nodes[b].next,i,a);
 		}
 		dijk();
 
@@ -44,25 +41,24 @@ public class Main {
 	}
 	private static void dijk(){
 		PriorityQueue<Node> pq=new PriorityQueue<>();
-		pq.add(new Node(0,1));
+		pq.add(new Node(null,0,1));
 
 		while(!pq.isEmpty()){
 			Node curNode=pq.poll();
-			if(curNode.time>distance[curNode.num])
-				continue;
 			int curNum=curNode.num;
-
-			for(Node next:nodes.get(curNum)){
+            if(curNode.time>distance[curNum])
+                continue;
+			for(Node next=nodes[curNum].next;next!=null;next=next.next){
 				int nextNum=next.num;
 				long nextTime;
 				if(curNode.time<=next.time){
 					nextTime=next.time+1;
 				}else{
-					nextTime= ((long)Math.ceil(((double)curNode.time-next.time)/m))*m+next.time+1;
+					nextTime= (long)((Math.ceil(((double)curNode.time-next.time)/m))*m+next.time+1);
 				}
 				if(nextTime<distance[nextNum]){
 					distance[nextNum]=nextTime;
-					pq.add(new Node(nextTime,nextNum));
+					pq.offer(new Node(null,nextTime,nextNum));
 				}
 			}
 
@@ -76,10 +72,12 @@ public class Main {
 
 
 	static class Node implements Comparable<Node>{
+		Node next;
 		long time;
 		int num;
 
-		public Node(long time, int num) {
+		public Node(Node next, long time, int num) {
+			this.next = next;
 			this.time = time;
 			this.num = num;
 		}
