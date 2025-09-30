@@ -12,18 +12,16 @@ public class Main {
             this.x=x;
             this.y=y;
         }
-        
         @Override
         public int compareTo(Point cur){
             return x-cur.x;
-        }
-        
+        }        
     }
+    
 	public static void main(String[] args) throws IOException {
         BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
         int n=Integer.parseInt(br.readLine());
 
-        
         int[] longestArr=new int[n];
         Point[] pointArr=new Point[n];
         Point[] resultArr=new Point[n];//idx저장용
@@ -34,13 +32,8 @@ public class Main {
             
             pointArr[i]=new Point(a,b);
         }
-
         Arrays.sort(pointArr);
-        
-        //System.out.println(pointArr[0].x+" "+pointArr[0].y);
-        //System.out.println(pointArr[1].x+" "+pointArr[1].y);
-        //System.out.println(pointArr[2].x+" "+pointArr[2].y);
-        //System.out.println(pointArr[3].x+" "+pointArr[3].y);
+
         longestArr[0]=pointArr[0].y;
         resultArr[0]=new Point(0,pointArr[0].x);
         int idx=0;
@@ -68,19 +61,16 @@ public class Main {
         
         int max=idx;
         StringBuilder sb=new StringBuilder();
-        
-        //System.out.println(Arrays.toString(resultArr));
         sb.append(n-1-max).append('\n');
         
         boolean[] need=new boolean[n];
         for(int i=n-1;i>=0;i--){
             if(resultArr[i].x==max){
                 need[i]=true;
-                //System.out.println(i+"번째 "+idxArr[i]+" 사용해야함");
                 max--;
             }
         }
-        //System.out.println(Arrays.toString(need));
+        
         List<Integer> li=new ArrayList<>();
         for(int i=0;i<n;i++){
             if(!need[i]){
